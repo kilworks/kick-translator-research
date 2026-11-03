@@ -148,8 +148,8 @@ claim('3.3 package version agrees with the latest tag', pkgVersion, lastTag);
 
 // 3.3 Harness ----------------------------------------------------------------
 
-const harness = join(root, 'scratchpad', 'harness');
-if (!existsSync(harness)) {
+const harness = [join(root, 'test', 'e2e'), join(root, 'scratchpad', 'harness')].find((p) => existsSync(join(p, 'run-gates.mjs')));
+if (!harness) {
   uncheckable('3.3 harness counts', 'the harness directory is ignored by version control and absent from this clone');
 } else {
   const files = readdirSync(harness).filter((f) => f.endsWith('.mjs'));
@@ -181,7 +181,7 @@ if (!existsSync(harness)) {
   // read now.
   const liveSrc = readFileSync(join(harness, 'run-live.mjs'), 'utf8');
   const liveBlock = liveSrc.slice(liveSrc.indexOf('const GATES = ['), liveSrc.indexOf('\n];', liveSrc.indexOf('const GATES = [')));
-  const launched = new Set([...block.replace(/\/\/.*$/gm, '').matchAll(/scratchpad\/harness\/([\w.-]+\.mjs)/g)].map((m) => m[1]));
+  const launched = new Set([...block.replace(/\/\/.*$/gm, '').matchAll(/(?:scratchpad\/harness|test\/e2e)\/([\w.-]+\.mjs)/g)].map((m) => m[1]));
   // run-live names its gates bare and spawns `scratchpad/harness/${nom}.mjs`,
   // so the file is the name plus an extension rather than a path in the entry.
   for (const m of liveBlock.replace(/\/\/.*$/gm, '').matchAll(/^\s{2}\[\s*'([\w.-]+)'/gm)) launched.add(m[1] + '.mjs');
@@ -287,10 +287,10 @@ claim('3.5 languages with no marker anywhere in the chain', 17, unmarked.length,
 // 3.6 What a clone gets -----------------------------------------------------
 // Checkable without cloning: what git tracks is what a clone receives.
 
-const trackedHarness = git('ls-files scratchpad/harness').split('\n').filter((l) => l.endsWith('.mjs')).length;
+const trackedHarness = git('ls-files test/e2e').split('\n').filter((l) => l.endsWith('.mjs')).length;
 claim('3.6 harness files tracked, so present in a clone', 56, trackedHarness);
 
-const trackedAudits = git('ls-files scratchpad').split('\n').filter((l) => l.endsWith('.py')).length;
+const trackedAudits = git('ls-files test/audits').split('\n').filter((l) => l.endsWith('.py')).length;
 claim('3.6 audit scripts tracked', 8, trackedAudits);
 
 // The frame asserts the opposite of what .gitignore does. Both are checked so
@@ -309,7 +309,7 @@ claim('3.6 README states a unit-test count that is now stale', '1032', readmeCou
 // history, not in the current file, so a pin added and removed would show.
 // Witness for the search itself: the same command finds vitest in that history.
 claim('3.6 commits ever touching Playwright in a manifest', 0, git('log --format=%h -S playwright -- package.json package-lock.json').split('\n').filter(Boolean).length);
-const infra = ['scratchpad/harness/playwright.mjs', 'scratchpad/harness/run-gates.mjs', '.agent/state.mjs'].filter((p) => existsSync(join(root, p)));
+const infra = ['test/e2e/playwright.mjs', 'test/e2e/run-gates.mjs', '.agent/state.mjs'].filter((p) => existsSync(join(root, p)));
 // "0 of 3", not 0: with the files missing, a bare zero would hold over nothing.
 claim('3.6 no gate infrastructure records the browser version', '0 of 3', infra.filter((p) => /\.version\(\)|browserVersion/.test(read(p))).length + ' of ' + infra.length);
 
@@ -321,7 +321,7 @@ claim('3.5b .nvmrc pins Node 20', '20', existsSync(join(root, '.nvmrc')) ? read(
 claim('3.5b the packer prints the running Node version', true, existsSync(join(root, 'scripts/pack.ts')) && /process\.version/.test(read('scripts/pack.ts')));
 
 // 3.5b: the weight gate compares upward only.
-const poidsPath = 'scratchpad/audit_poids.py';
+const poidsPath = 'test/audits/audit_poids.py';
 if (existsSync(join(root, poidsPath))) {
   const poids = read(poidsPath);
   claim('3.5b the weight gate fails on growth', true, /if pourcent > MARGE/.test(poids));
@@ -340,7 +340,7 @@ claim('3.7 the store versions 2.9.2 and 2.7.0 write the same switch', '2 of 2', 
 claim('3.7 settings are written to synced storage', true, /chrome\.storage\.sync\.set\(\{\s*\[STORAGE_KEY_SETTINGS\]/.test(read('src/shared/settings.ts')));
 claim('3.7 per-channel pause on master / on the branch', 'no / yes', (gitAnswer('grep -l pausedChannels master -- src') ? 'yes' : 'no') + ' / ' + (gitAnswer(`grep -l pausedChannels ${BRANCH} -- src`) ? 'yes' : 'no'));
 claim('3.7 the branch is not merged', true, gitAnswer('branch -r --no-merged master').includes('feat/nav-monde-isole'));
-claim('3.7 the four-effect navigation harness is in no runner', 0, (existsSync(join(root, 'scratchpad/harness/run-gates.mjs')) ? read('scratchpad/harness/run-gates.mjs') : 'nav-monde').split('nav-monde').length - 1);
+claim('3.7 the four-effect navigation harness is in no runner', 0, (existsSync(join(root, 'test/e2e/run-gates.mjs')) ? read('test/e2e/run-gates.mjs') : 'nav-monde').split('nav-monde').length - 1);
 
 // 5: which decisions still wait on a capture. The queue's waiting item says four;
 // two later entries of the same file overtook it.
@@ -351,10 +351,10 @@ const collector = existsSync(join(root, 'scripts/kick-chat-collector.js')) ? rea
 claim('5 the collector exports channel and messages, nothing about the reader', 'channel+messages, no setting', (/channel:/.test(collector) && /messages:/.test(collector) ? 'channel+messages' : 'fields not found') + (/targetLang|settings|chrome\.storage/.test(collector) ? ', reads a setting' : ', no setting'));
 
 // 5: the capture that was taken, and the queue that forgot it.
-claim('5 the handoff reports a live capture of 804 messages', true, existsSync(join(root, 'HANDOFF.md')) && /804 unique messages from a live Spanish channel/.test(read('HANDOFF.md')));
+claim('5 the handoff reports a live capture of 804 messages', true, existsSync(join(root, 'docs/HANDOFF.md')) && /804 unique messages from a live Spanish channel/.test(read('docs/HANDOFF.md')));
 
 // 5: the frequency the listing already publishes.
-claim('5 the listing sells a hover usage ratio', true, /point at a message, which cuts usage by roughly 10x/.test(read('store-listing.md')));
+claim('5 the listing sells a hover usage ratio', true, /point at a message, which cuts usage (by roughly 10x|about ten times)/.test(read('store/chrome/description/en.txt')));
 
 // Claims that need what this account did not have ---------------------------
 
