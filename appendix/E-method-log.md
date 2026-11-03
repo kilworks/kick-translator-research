@@ -5706,6 +5706,36 @@ not the published archive; `probe-archive.mjs` is the instrument for what a stor
 serves. Whether tree-shaking keeps working is exactly why the probe reads the
 build rather than the imports.
 
+### 4.117 Ten proposals shipped in a day, and the verifier was the first thing to break
+
+**The second time this study changed the product, and the first at kil's
+request.** On 2026-11-03 kil asked for the ranked proposals 1 to 10,
+then S1 and S2. Nine commits on `feat/translation-quality` of the extension,
+each with its test seen red on the code before it. The ones that move a number:
+the confident path's wrong answers on a fresh blind corpus of 500 chat lines
+went **from 17 to 6**; one-word CJK answers sent went **from 14 to 27 of 30**;
+noise skipped **from 51 to 56 of 60**.
+
+**The bar written before the change was not met.** At most one confident wrong
+answer per set, 0.7 percent overall, was the line set before the rules were
+written. The result is **1.2 percent**, and three of the six are Russian typed
+in Latin letters, named Finnish. It is reported as missed, not re-drawn.
+
+**S1 was this study's own instrument.** `verify-handover-claims.mjs`, which the
+reader is told to run first, crashed on a path the extension moved in
+September: the harness went to `test/e2e`, the audits to `test/audits`. Nine
+path literals now follow the move. Run on the branch it gives **48 of 67**, and
+the 19 that fail are all counts that grew since 2.10.0 (harness files 56 to 84,
+interface keys 155 to 229). They are left as the handover states them: the
+handover describes 2.10.0, and rewriting the expected values would make the
+verifier agree with whatever it is pointed at. That is 4.116's shape again, a
+number true of a past state, except this time the instrument knew it and
+crashed instead of passing.
+
+**Not observed.** The two DeepL changes (a shared source kept on a batch,
+Norwegian sent as NB) are pinned only on the request body: there is no DeepL
+key on the machine, and the DeepL language list was not re-read that day.
+
 ### The pattern across the first three
 
 All three accused working code, and all three erred in the same direction. A
