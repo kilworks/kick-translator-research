@@ -134,6 +134,10 @@ public.
 | Arabic in Latin letters converted before translating, serious errors before / after, of which mistranslations | | **27 / 26, 1 / 23, not shipped** ([E 4.125](../appendix/E-method-log.md)) | [new] |
 | Same, raw path | | **428 / 156 / 116** | [new] |
 | Same bench, neutral lines named a language, confident / raw | | **0 / 55** | [new] |
+| Local engine against Google, same 454 outputs, penalty a line; same judges on 100 hard lines | | **1.38 / 0.90; 1.87 / 1.02** ([E 4.126](../appendix/E-method-log.md)) | [new] |
+| Gemini Nano against Google, 154 hard outputs, penalty a line, serious errors | | **2.82 / 2.45, 31.2 % / 23.1 %, not shipped** ([E 4.126](../appendix/E-method-log.md)) | [new] |
+| Correct source language forced, 31 changed outputs of 268, 8 sentences, penalty a line before / after | | **10.74 / 0.87, upper bound** ([E 4.126](../appendix/E-method-log.md)) | [new] |
+| Second real bench, 580 lines in scarcer languages, confident path right / silent / wrong | | **246 / 331 / 3** ([E 4.126](../appendix/E-method-log.md)) | [new] |
 | Two annotators, agreement on the language of a line | | **96.4 %, kappa 0.960** (2000 lines) | [new] |
 
 ### Translation quality, first baseline [new]

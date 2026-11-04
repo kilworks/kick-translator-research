@@ -43,6 +43,11 @@ shorthand pass, an insult that looks invented by the engine went unscored by bot
 judges, and the gain it sits in is reported with and without it. No person who
 reads the source languages has checked these scores yet.
 
+**[new]** Every earlier measure of the detector read a drawn sample, so none met the one
+line in 16,060 that froze it ([E 4.126](../appendix/E-method-log.md)). The on-device
+engines were recorded as not observable because of the harness, not the browser, and
+are now measured on one prompt shape and one machine.
+
 **A correction to this chapter's premise: one capture was taken, in August, and
 the queue lost track of it.** **[reported]** The handoff of 2026-08-16, which
 chapter 8 cites for other findings, reports 804 unique messages from one

@@ -6113,6 +6113,85 @@ would take go from 6 of 620 to 1. **On Firefox that last count goes the wrong wa
 measured**. No live chat has run this code; it was measured against recorded
 answers.
 
+### 4.126 The audit that hung, the engines that were never broken, and a rule that missed its bar
+
+Run in one evening, after 4.125, with the two annotators and two judges of 4.122.
+Language tables, the channel's language and on-device engines were each measured
+against something other than the lines that suggested the change.
+
+**A real chat line froze the pre-send path.** Running the detector over the
+captures stalled for 18 minutes on one line, 73 K then an invisible tag character.
+The Brazilian laughter pattern `k{2,}(?:[a-jl-z]?k{2,})*` tries every way of cutting
+a run of k, about 1.6 times slower per letter: **3047 ms at 42 letters, no answer
+within 12 s at 73**. Any viewer could have frozen the tab of everyone in a chat with
+one message. It came with #37 and is in no release. The separator is now required;
+old and new agree on **all 12,093,235 strings** up to 9 characters over a six-letter
+alphabet. A fuzz of 1548 hostile strings stalled on it before and shows **no stall
+and no call over 100 ms** after. Measured in Node, not in a browser tab. Every earlier
+measure read a drawn sample, so the pattern reached master with 2051 passing tests.
+
+**The on-device engines were never broken, the harness was.** 4.122 recorded that
+`Translator.create()` crashed the tab on Chromium 151 and Chrome 157. Launched by
+Playwright, Chrome 157 reports the Prompt API and the language detector
+`unavailable`. Started by hand and joined over CDP, the same build reports
+`downloadable` and ran both. A first attempt timed out with no download event; the
+second moved the click listener from the body to the document and finished in 160 s,
+so the likely cause is a click that missed, not established. **That replaces the "not
+observed" of 4.122 for the local engine.** DeepL stays not observed, no key.
+
+**The local engine is worse than Google on every source measured.** Blind, two
+judges, agreement on a serious error 90.2 %, kappa 0.730. On 454 outputs, **penalty a
+line 1.38 against 0.90, serious errors 19.8 % against 12.4 %**, Japanese the widest
+(1.78 against 0.68). The Google figures come from the first judge pair; on 154
+identical outputs the two pairs read 2.55 and 2.45, so the shift does not explain
+it, and on 100 hard lines under the same judges the gap is **1.87 against 1.02**.
+On-device first is the default mode. This study does not change a default: speed,
+privacy and quota are on the other side of that decision.
+
+**Point 8 stops: Gemini Nano loses on the lines it was meant for.** The condition
+was met, since hard lines carry 2.55 a line against 0.94 and the shorthand table
+reached 9 outputs of 143. On 154 hard outputs Nano scores **2.82 against Google's
+2.45, serious 31.2 % against 23.1 %, 43 outputs better, 71 worse**, p50 452 ms, p95
+1229 ms, and hard lines are 22 % of outputs. It trades slang errors (3.5 against 8)
+for invented meaning (mistranslation 74.5 against 46, register 19 against 2). One
+prompt was tried, and it declared English as the expected output for every target.
+A better prompt may close part of this; nothing here shows it would.
+
+**A correct source language is worth more than any table so far, on few lines.** On
+686 Google outputs, the 34 where the engine read another language carry 6.75 a line
+against 1.02. Forcing the annotated language on the 268 outputs that left without a
+hint changed 31, **10.74 to 0.87 a line, 24 better, 6 equal, 1 worse**: an upper bound
+the product cannot reach, on 8 distinct sentences. The product already reads the
+channel's declared language and uses it only for compose. Retrying on it whenever
+the engine named another language is wrong on 18 of 49 fires, English on a Finnish
+channel translated as Finnish. Retrying only on a line handed back unchanged was
+right on 14 of 14, 6 distinct sentences, and on a second sample the retries that
+went wrong were all single words, so the rule was frozen with a two-word minimum
+before a third sample of 1000 unread lines: **23 fires of 577 hintless outputs, 13
+changed, 8.38 to 2.85 a line, 10 better, 2 worse, 1 equal**. The bar written before
+scoring allowed one worse output. It got two, by 1 and 0.5 points. **The rule is not
+shipped.** Whether that bar was too strict is the maintainer's call, made with the number.
+
+**The exclusivity report has a reading now, and it is not a removal list.** Two
+reviewers classified all 316 entries of 4.123, blind to each other: agreement
+**80.7 %, kappa 0.626, 192 both shared (186 with no low confidence), 55 both noise,
+5 both narrow, 3 both unsure, 38 unsure on one side, 23 opposed**. Many of those tables
+count only together with other evidence, so "shared" does not mean a rule fires
+wrongly. The check that does: of 16,060 distinct lines outside heldout, 6478 were
+named on the confident path, and **126 (1.9 %) named a non-English language other than
+the channel's on a non-English channel**, an upper bound since some are truly foreign.
+Thirty contain a triaged word, and 29 of those 31 word hits are entries both reviewers
+called shared, reviewers who saw no chat line. Named in those lines: `dat` as Dutch on
+Romanian (8), `miks` as Estonian on Finnish, `che` as Italian on River Plate Spanish,
+`niye` as Tagalog on Turkish and Bengali, `aja` as Indonesian on Finnish. None removed.
+
+**A second bench for the languages the first lacked.** 963 lines from two later
+captures, agreement 95.6 %, kappa 0.950, 921 agreed. Of 580 with a language, **confident
+246 / 331 / 3 (0.5 % wrong), raw 361 / 126 / 93**. On 95 lines in languages outside the
+43, the confident path named one on 11, mostly Serbian as Polish and Mongolian as Dutch,
+a case no corpus had measured. MyMemory's remaining lines and marker probe wait on its
+daily cap.
+
 ### The pattern across the first three
 
 All three accused working code, and all three erred in the same direction. A
