@@ -5998,6 +5998,69 @@ error, 54 of them on lines with a mention the engine altered, 41 on lines with
 an emote. The pipeline strips emotes before sending, so some of those 41 may
 belong to the bench and not to what a reader sees.
 
+### 4.123 The threshold written in advance failed its own control
+
+4.119 found rules of the form "only X writes this" that were written from memory
+and wrong. The check for them is now a calculation: 1,329 claims in the
+detector's tables on HEAD, each read from the code at a given revision, against
+frequency lists from OpenSubtitles 2018 for **42 of the 43 languages** (no list
+exists for Cantonese). Leipzig Corpora was named in the plan and **not used**:
+its pages answer with a bot wall, which was not worked around, so its license
+stays unverified.
+
+The threshold was written before any result: another language writes the entry
+at 50 per million or more, and at a tenth or more of the claimed language's rate.
+The control was the old revision f5b67d7, where five entries were known wrong.
+**The threshold caught three of five.** It missed `ik` (Latvian 96 per million,
+Dutch 38,770) and `ele` (Romanian 268, Portuguese 8,036), because the relative
+condition hid both. The default became the absolute condition alone, **chosen
+after the control and marked as such in the script's header**: **5 of 5 red on
+f5b67d7, 0 of 5 on HEAD**.
+
+**On HEAD: 1,072 violations on 316 rule entries, 51 of which another language
+writes more often than the claimed one.** Nothing was removed. A violation is a
+candidate, not a verdict: not every gate set is an exclusivity claim, and the
+lists carry their own noise (the Ukrainian list holds Russian subtitles). The
+triage is for a person who reads the report, and it has not happened.
+
+### 4.124 One error category was the bench, and 44 candidates became 2 entries
+
+Two questions came out of the baseline in 4.122: do emotes and names survive the
+engine, and does spelling out chat shorthand help. The first answered itself on
+reading the code. Emotes, mentions and links never reach the engine, and stay on
+screen in every display style, so **the 90 emote or user errors of the baseline
+were the bench's and not a reader's**. What did reach the engine was a name:
+marker survival on 100 dev lines, Google, gave `[n]` 99, `{n}` 98, `⟦n⟧` 98,
+`__n__` 97, `#n` 95, private-use 67, and one term, the only one the bench showed
+mistranslated, now travels as a placeholder.
+
+For shorthand, **44 candidates, 12 with two independent sources** (a Wiktionary
+edition and a slang dictionary). The dictionary half is weak outside Portuguese,
+which is a limit of the sources and not a finding about the languages: Indonesian,
+Polish, Finnish and Russian candidates ended on the open list with nothing against
+them. Nine of the 12 occur on real lines outside heldout, **27 lines, of which
+only 10 get a confident language**. The gate that keeps wrong languages out also
+holds back most of what this table could reach, both French lines included.
+
+Two blind judges, before and after shuffled, 60 items, **90 % agreement on a
+serious error**. Over all nine candidates the penalty fell from 4.33 to 1.28 a
+line, and that number is not worth quoting. **`vc` and `tb` gained nothing**,
+because Google already reads them; `msm` moved within the noise and can come back
+as "the same". **Two entries survived: `slk` and `pqp`, 10.50 to 0.72 a line on 9
+outputs, 3 lines, all Portuguese.**
+
+The 10.50 needs its asterisk. One of the 3 lines came back untranslated before,
+a critical error, and after the change it comes back with an insult that looks
+invented by the engine. The judges did not know the word, and neither scored it.
+**Without that line: 3.25 to 0.25 on 6 outputs.** A grid that scores what a judge
+can recognise will miss what a judge cannot, in the direction that flatters the
+change. A person who reads Portuguese has not looked at these lines.
+
+MyMemory was **not observed** for this pass, its daily quota being spent; the
+on-device engine and DeepL remain not observed as in 4.122. The baseline bench
+keeps **690 of 690 sends**, which proves the change is narrow and not that it is
+good: none of its source languages has a table.
+
 ### The pattern across the first three
 
 All three accused working code, and all three erred in the same direction. A

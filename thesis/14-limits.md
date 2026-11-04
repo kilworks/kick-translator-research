@@ -37,6 +37,12 @@ occurs; 13 listed languages gave no line at all. On that sample, 91 of 2000
 lines (4.6 %) are code-switched, which bounds decision 4 for this mix, not
 for a live chat.
 
+**[new]** Translation is judged by models, on a grid that can only score what the
+judge recognises ([E 4.124](../appendix/E-method-log.md)). On one line of the
+shorthand pass, an insult that looks invented by the engine went unscored by both
+judges, and the gain it sits in is reported with and without it. No person who
+reads the source languages has checked these scores yet.
+
 **A correction to this chapter's premise: one capture was taken, in August, and
 the queue lost track of it.** **[reported]** The handoff of 2026-08-16, which
 chapter 8 cites for other findings, reports 804 unique messages from one
