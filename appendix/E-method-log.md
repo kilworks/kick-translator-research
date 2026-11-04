@@ -6061,6 +6061,58 @@ on-device engine and DeepL remain not observed as in 4.122. The baseline bench
 keeps **690 of 690 sends**, which proves the change is narrow and not that it is
 good: none of its source languages has a table.
 
+### 4.125 One point closed by its own measurement, one by the browser already holding the answer
+
+The plan had two proposals for lines the detector reads badly: convert Latin-script
+Russian, Ukrainian, Bulgarian and Arabic back to their script before translating,
+and find a better fallback than franc. The first did not survive contact with the
+chat. **Three captures hold 595 Russian lines, 41 Ukrainian and 17 Bulgarian, and
+not one real sentence of those languages in Latin letters.** Every candidate was
+an advert, an English phrase or a link. The rules were not written, because the
+only lines to measure them on would have been ones written for them.
+
+Arabic in Latin letters does exist, as Moroccan chat with digits for letters, 15
+real lines into two reader languages. **Google left 18 of 30 outputs as typed.** A
+prototype conversion made the penalty look better, **22.38 to 18.97 a line**, and
+that number argues against itself: the serious errors barely moved, **27 to 26**,
+and changed kind, **untranslated 26.5 and mistranslated 1 before, mistranslated 23
+after**. A reader who saw the chat line now sees a fluent sentence nobody wrote.
+Two blind judges were told the dialect and asked to decode first, 96.7 % agreement
+on a serious error; both say they could not read all of it. The grid weighs "left
+untranslated" as heavily as "said something false", so it cannot price this
+exchange, and **the conversion was not shipped**. Hindi in Latin letters was out of
+scope from the start.
+
+The second held up. `i18n.detectLanguage` is built into Chrome and Firefox and
+costs no bytes. The two engines behave differently, Chrome quieter and Firefox
+naming more, so one rule was fixed on dev and held to for both: a reliable browser
+answer wins, a guess of ours stands only if the browser's first choice agrees,
+otherwise no answer. Heldout, 700 lines, once with that rule, right / silent /
+wrong:
+
+| | Right | Silent | Wrong | Neutral lines named |
+|---|---|---|---|---|
+| Today | 428 | 156 | **116** | 55 |
+| Chrome 151 | 409 | 276 | **15** | 8 |
+| Firefox 159 | 506 | 168 | **26** | 5 |
+
+Those are the shipped function's numbers, fed the answers each browser gave. The
+rule first ran as a model of the function, which counted language codes the product
+does not have as wrong (18 and 33); the code answers nothing there. So **heldout
+was read twice in totals, with no change between the reads.** Tatoeba, 5,040 lines:
+**508 wrong today, 70 on Chrome, 159 on Firefox**. Called from a content script,
+as the product will: p95 **0.1 ms on Chrome, 1 ms on Firefox**, worst 14 ms.
+
+It is not free, and the cost falls on one browser. **Chrome gets quieter, 120 more
+silent lines of 700, and 19 fewer right**, and a reader with a source allowlist
+drops what is not named. On dev, English lines named English go from 41 of 91 to
+34 on Chrome, so more English reaches the engine; foreign lines the English skip
+would take go from 6 of 620 to 1. **On Firefox that last count goes the wrong way,
+6 to 11.** The compose box still uses franc, unchanged. The Chrome built-in
+`LanguageDetector` answered `unavailable` here and Firefox has none: **not
+measured**. No live chat has run this code; it was measured against recorded
+answers.
+
 ### The pattern across the first three
 
 All three accused working code, and all three erred in the same direction. A

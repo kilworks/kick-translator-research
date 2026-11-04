@@ -130,6 +130,8 @@ public.
 | Real Kick chat, heldout, 700 lines with an agreed language, confident path right / silent / wrong | | **359 / 338 / 3** ([E 4.122](../appendix/E-method-log.md)) | [new] |
 | Exclusivity rules on HEAD, entries with a violation / with another language ahead of the claimed one | | **316 / 51** ([E 4.123](../appendix/E-method-log.md)) | [new] |
 | Shorthand spelled out, 2 entries, 3 real lines, Google, penalty a line before / after (without the one line nobody could judge) | | **10.50 / 0.72 (3.25 / 0.25)** ([E 4.124](../appendix/E-method-log.md)) | [new] |
+| Real Kick chat, heldout, 700 lines, raw path wrong: today / with the browser detector, Chrome / Firefox | | **116 / 15 / 26** ([E 4.125](../appendix/E-method-log.md)) | [new] |
+| Arabic in Latin letters converted before translating, serious errors before / after, of which mistranslations | | **27 / 26, 1 / 23, not shipped** ([E 4.125](../appendix/E-method-log.md)) | [new] |
 | Same, raw path | | **428 / 156 / 116** | [new] |
 | Same bench, neutral lines named a language, confident / raw | | **0 / 55** | [new] |
 | Two annotators, agreement on the language of a line | | **96.4 %, kappa 0.960** (2000 lines) | [new] |
