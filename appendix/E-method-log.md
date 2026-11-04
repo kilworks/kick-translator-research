@@ -5950,6 +5950,54 @@ The instrument is wrong here, not the claim, and it is left as it is and named,
 the same choice as 4.117: changing a verifier on the day it disagrees is how it
 comes to agree with whatever it is pointed at.
 
+### 4.122 A bench of real chat, and the first number for translation itself
+
+4.119 ended on a brief that no number of authors can widen. The answer is
+chat nobody wrote for the detector. **Two captures of live Kick chat on
+2026-11-04 gave 14,728 lines, 9,336 distinct**, drawn by the language each
+stream declared into **2,000 lines, at least 30 per language where the
+captures had them**. Anonymised at write time: a mention becomes an opaque
+`@u<n>`, the channel a number, the time an hour. The chat stays out of both
+repositories. What fell short is named: 13 listed languages gave no line
+(el, bg, uk, lv, hr, lt, vi, no, sq, nl, hu, ast, st), and 9 have fewer than
+30 because that is all the captures held (de 24, ko 24, hi 29, sr 19, bn 18,
+be 17, am 8, it 7, zh 6).
+
+Two annotators, two briefs worded differently, no access to the detector.
+**Agreement on the language of a line: 96.4 %, kappa 0.960**; variant 0.922,
+romanised 0.918, english_chat 0.807, code_switch 0.726, slang 0.709. The 478
+field disagreements went to a list for speakers, none settled by the agent.
+Annotators who are models of one family can agree on the same mistake; the
+kappa measures their agreement, not their accuracy, and the human check is
+what tests the latter.
+
+The bench was split by gold language into dev (1,007) and heldout (993,
+sha256 pinned), and the detector was read once on heldout, in totals. **On
+700 lines with an agreed language: confident path 359 right, 338 silent, 3
+wrong; raw path 428, 156, 116.** The confident path holds on chat it was not
+tuned on at 0.4 % wrong, near the 0.2 % of the blind corpora; the raw path,
+franc included, is wrong on one line in six. Of the neutral lines (emotes,
+`gg`, a name), the confident path names a language for none, the raw path for
+55.
+
+**Translation had never been measured.** Six source languages, the most
+frequent of the bench, into the four reader languages, 30 dev lines a pair,
+sent through the pipeline's own preparation and the provider modules the
+worker calls. Two blind judges, one MQM grid, the engine hidden: **kappa 0.806
+on "a major or critical error"**, from 0.42 (register) to 0.98 (emote or
+user) per category. **Google's free endpoint: 1.30 penalty points a line,
+15.2 % of lines with a serious error (686 outputs). MyMemory: 2.12 and 27.2 %
+(594 outputs)**, its daily cap reached before Polish into Spanish, French and
+Brazilian Portuguese. Finnish is the hardest source on both (Google 2.03 to
+2.73 a line). The on-device engine, the default on Chrome, was **not
+observed**: `Translator.create()` crashed the tab under Playwright in
+Chromium 151 and Chrome 157, twice, and was left there. DeepL: no key.
+
+One reading to check before acting on it: 90 outputs carry an emote or user
+error, 54 of them on lines with a mention the engine altered, 41 on lines with
+an emote. The pipeline strips emotes before sending, so some of those 41 may
+belong to the bench and not to what a reader sees.
+
 ### The pattern across the first three
 
 All three accused working code, and all three erred in the same direction. A

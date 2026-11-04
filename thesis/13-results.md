@@ -127,6 +127,22 @@ public.
 | Review probe lines named confidently wrong, written by the reviewer | 77 of 97 | **23 of 97** after the fix ([E 4.119, 4.120](../appendix/E-method-log.md)) | [new] |
 | Tatoeba confident path, right / wrong, cost of that fix | 3709 / 3 | 3676 / 3 | [new] |
 | Tatoeba raw path wrong, cost of that fix | 502 | 521 without the raw-only leanings, **508** with them | [new] |
+| Real Kick chat, heldout, 700 lines with an agreed language, confident path right / silent / wrong | | **359 / 338 / 3** ([E 4.122](../appendix/E-method-log.md)) | [new] |
+| Same, raw path | | **428 / 156 / 116** | [new] |
+| Same bench, neutral lines named a language, confident / raw | | **0 / 55** | [new] |
+| Two annotators, agreement on the language of a line | | **96.4 %, kappa 0.960** (2000 lines) | [new] |
+
+### Translation quality, first baseline [new]
+
+Six source languages of the bench (en, ja, th, fi, tr, pl) into en, fr, es, pt-br, 30 lines a pair,
+two blind judges on a simplified MQM grid (weights 25 / 5 / 1), kappa 0.806 on a major or critical error.
+
+| Engine | Outputs judged | Penalty per line | Lines with a serious error | Tag |
+|---|---|---|---|---|
+| Google, free endpoint | 686 | **1.30** | **15.2 %** | [new] |
+| MyMemory | 594 (daily cap before pl into es, fr, pt-br) | **2.12** | **27.2 %** | [new] |
+| On-device (Chrome Translator) | not observed: `create()` crashed the tab under Playwright | | | [new] |
+| DeepL | not observed: no key | | | [new] |
 
 ## 13.3 Transliteration and noise
 

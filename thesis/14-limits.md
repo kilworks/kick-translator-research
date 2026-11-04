@@ -28,6 +28,15 @@ The four decisions named there:
 The collector now in the repository has not been run against live traffic; an
 earlier one was, once.
 
+**[new]** It was run twice on 2026-11-04 ([E 4.122](../appendix/E-method-log.md)):
+2000 live lines, annotated by two independent annotators, now judge detection
+and translation. The limit narrows, it does not lift. The sample is drawn by
+the language a stream declares, at least 30 lines per language, so it says
+what a line of each language looks like and not how often each language
+occurs; 13 listed languages gave no line at all. On that sample, 91 of 2000
+lines (4.6 %) are code-switched, which bounds decision 4 for this mix, not
+for a live chat.
+
 **A correction to this chapter's premise: one capture was taken, in August, and
 the queue lost track of it.** **[reported]** The handoff of 2026-08-16, which
 chapter 8 cites for other findings, reports 804 unique messages from one
