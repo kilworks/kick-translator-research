@@ -35,7 +35,11 @@ node appendix/D-scripts/stop-conditions.mjs . /path/to/kick-chat-translator
 
 Last known: **67/67 checkable claims against 2.10.0; 48/67 against 3.3.0 on
 2026-11-03**, the 19 others being counts grown since and left as stated
-([entry 4.117](appendix/E-method-log.md)). **12/12 spec conditions, no broken
+([entry 4.117](appendix/E-method-log.md)); **47/67 on 2026-11-04**, the one
+more being the instrument counting an emoji joiner as a direction mark
+([entry 4.121](appendix/E-method-log.md)). The detector loop that followed, the
+bar met on two blind corpora, the linguistic review and its fixes are entries
+4.118 to 4.120. **12/12 spec conditions, no broken
 internal link**, and the axis ledger naming exactly the 22 axes the specification
 defines. The link line used to be a sentence, "all internal links resolve", and
 nine of them did not. Counts that no script reads, such as the number of

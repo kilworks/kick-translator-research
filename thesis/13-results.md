@@ -122,6 +122,11 @@ public.
 | Bulgarian rule, false positives on 28 ru + 10 uk + 6 mn, none used to build it | | 0 | [reported] |
 | Script check with emoji, "да" + 2 emoji | no majority, falls through | holds to 6 emoji | [reported] |
 | Malay, Hebrew identified | never | identified | [reported] |
+| **Confident wrong, blind chat corpus of 500 lines, the bar being 0.7 % and one per set** | 8 of 500 on corpora 11 and 12 | **1 of 500 on each (0.2 %)**, eight corpora to get there ([E 4.118](../appendix/E-method-log.md)) | [new] |
+| English chat words in the 204 English lines of the tuning corpora | | **0 of 19** (`ik`, `wat`, `wyd`, `proc`, `quest`...) | [new] |
+| Review probe lines named confidently wrong, written by the reviewer | 77 of 97 | **23 of 97** after the fix ([E 4.119, 4.120](../appendix/E-method-log.md)) | [new] |
+| Tatoeba confident path, right / wrong, cost of that fix | 3709 / 3 | 3676 / 3 | [new] |
+| Tatoeba raw path wrong, cost of that fix | 502 | 521 without the raw-only leanings, **508** with them | [new] |
 
 ## 13.3 Transliteration and noise
 

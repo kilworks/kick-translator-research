@@ -96,7 +96,7 @@ sentences. They were written by people who knew what they were testing. Section
 
 ### Why the hand-written corpus is not merely small
 
-Three distinct problems, which are easy to collapse into one:
+Four distinct problems, which are easy to collapse into one:
 
 - **Distributional.** Hand-written sentences are well formed. Real chat
   contains fragments, repetitions, mid-word cut-offs, pastes, and lines that
@@ -107,6 +107,13 @@ Three distinct problems, which are easy to collapse into one:
   frequency, and usually in its clearest form.
 - **Adversarial coverage.** Real chat contains deliberate evasion, spam, and
   copy-paste floods. A hand-written bench contains what its author thought of.
+- **Shared brief.** Measured, not argued **[new]**: eight blind corpora by eight
+  authors who never saw the detector met the bar, and a review then found
+  English chat words (`ik`, `wat`, `wyd`, `proc`) confidently named Dutch,
+  Czech or Polish. The 204 English lines of the tuning corpora carry none of
+  them ([E 4.119](../appendix/E-method-log.md)). Independent authors do not make
+  independent briefs: what the brief does not name is absent from every corpus
+  written to it, however many there are.
 
 ## 14.2 Threats specific to individual findings
 

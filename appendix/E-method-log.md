@@ -5736,6 +5736,220 @@ crashed instead of passing.
 Norwegian sent as NB) are pinned only on the request body: there is no DeepL
 key on the machine, and the DeepL language list was not re-read that day.
 
+### 4.118 Eight blind corpora to meet the bar once, and each stopped being blind the moment it judged
+
+**The loop that followed 4.117**, run on 2026-11-04 on the extension's branch
+`feat/corpus5-ru-translit` (pull request #41). 4.117 left the bar missed at 1.2
+percent on corpus 4. Every corpus after it was written to the same brief (17
+languages in their own script, Hinglish and Russian in Latin letters, laughter
+mixed across cultures, 500 lines) by a new author who had no access to the
+repository, the detector or the other corpora. Lines that collided with any
+string literal in `src/` or `test/` went back to that author and were rewritten
+without being read here. Each corpus is pinned by its sha256, and a guard fails
+if any other file reads it; the guard was seen red on a scratch reader each time.
+
+**The rule of use.** A blind corpus is read once, in totals, on every detector
+state since the previous one. It then becomes a tuning bench: its confident
+wrong lines are read, one rule is written per class with a test seen red on the
+code before it, and the next rule needs a new corpus. Reading the totals a
+second time counts as spending the corpus too, which is why corpora 5, 6 and 7
+were each replaced after a second reading.
+
+| Corpus | Confident wrong of 500, before the loop's first rule | After the latest rule it judged | Collisions rewritten unread |
+|---|---|---|---|
+| 5 | 13 | 6 (1.2 %), laughter 7 to 0 | 23 |
+| 6 | 12 | 3 (0.6 %), native 2 | 53 |
+| 7 | 12 | 6 (1.2 %) | 73 |
+| 8 | 14 | 6 (1.2 %) | 25 |
+| 9 | 12 | 5 (1.0 %), native 5 | 6 |
+| 10 | 11 | 5 (1.0 %), laughter 3 | 31 |
+| 11 | 8 | **1 (0.2 %)**, native 1, romanised 0, laughter 0 | 27, one left at judgment |
+| 12 | 8 | **1 (0.2 %)**, native 1, romanised 0, laughter 0 | 23, none left, no line read |
+
+**The bar, written before corpus 4 as at most one confident wrong line per set
+and 0.7 percent overall, is met on corpus 11 and again on corpus 12.** Corpus 11
+carries two reservations: one collision was still in it when it was judged (a
+native Russian line the confident path reads right, so it cannot lower the wrong
+count), and one of its lines was seen in an error message after the judgment.
+Corpus 12 carries neither.
+
+**What the benches taught, one class at a time.** A laugh voted for a language
+beside words it could not vouch for (`kkkk was zum` went out Portuguese); it now
+votes only alone or beside lexicon words, 73 confident wrong to 1 on a scratch
+bench. Russian adjectives typed `-yy` read as Finnish; they read as Russian in
+Latin letters now. Then words two languages write the same (`vse`, `iz`, `mia`,
+`davai`, `no`), Ukrainian plurals taken for Russian infinitives (`-yut`,
+`-plyat`, `budut`), English gaming words read by an English suffix rule (`boss
+fight`), Turkish typed without the dotless i read as Tagalog, the Finnish oath
+`hitto` read as Italian, Korean laughter typed as full syllables read as Korean.
+Benches 4 to 10 end at one confident wrong line in 3500, `gg bro` filed
+Indonesian and read English, left because silencing it costs English.
+
+**Cost of the loop**: Tatoeba confident right 3716 to 3709 with its 3 wrong
+unchanged, the Malay pair 39 to 36. **One commit message was false**:
+`fcab59f` said corpus 4 went from 1 to 0 and corpus 5 from 4 to 1, and the
+totals were 3 to 0 and 6 to 1. The next commit and the pull request say so.
+
+### 4.119 The bar was met on corpora that could not contain what a Kick chat types most
+
+**After the bar held twice, kil asked for a linguistic review of the
+detector**: a ranked list of findings, each with a line that breaks, and no
+code changed. The review read every rule table (the short-word lexicon, the
+exclusive letters and sequences, the shared-letter gates, the Danish-Norwegian
+and Malay-Indonesian pairs, the Cyrillic and Arabic-script tables, the
+Hinglish words, the laughter forms, the romanised markers) and checked each
+written claim of the form "only X writes Y" against the 43 languages. Each
+finding was then run on the live detector: **77 of 97 probe lines were
+confidently wrong, 88 wrong on the raw path.**
+
+**Class 1, English chat named another language on the confident path**, which
+is the class that matters most because a line named in the reader's own
+language is not translated: `ik bro` (I know) Dutch, `wat lol` Dutch, `did it
+proc` Czech, `nice quest` and `that guest is crazy` Catalan (an unbounded
+`-uest`), `the government again` and `ninja move` Slovene, `my lawyer said no`
+and `wyd bro` Polish (an unbounded `wy`), `the czech guy` Polish, `wired
+headset` German, `fuel the hype` Spanish, `pour one out` French, `nice ghetto`
+and `ditto` Italian, `kung fu panda` Tagalog, `whyy` Finnish, `wait til the
+winner` Norwegian, and `pokémon is the most fun` Hungarian, because the accent
+of a proper noun opened a shared-letter gate behind which `most` is Hungarian.
+
+**Class 2, claims of exclusivity that a sibling language contradicts.** Two
+were contradicted by the file itself: `taas` was refused for Finnish in the
+lexicon because Estonian writes it and admitted as Finnish in the exclusive
+table, and `ele`/`ela` were refused as Romanian and then admitted as
+Portuguese. The rest: Romanian typed with the legacy cedilla (`aşa este`) read
+as Turkish; `velmi`, `hra` and `-ným` taken from Czech for Slovak, `pravda`
+for Russian; `memang`, `betul` and `-knya` split between Malay and Indonesian
+when both write them; `много` read as Bulgarian; Slovene `sme` as Slovak;
+Polish `nikogo` as Russian; `hallo`, `gerne`, `sker`, `salut`, `hola`, `hostia`
+and `vale` each claimed by one of the languages that write them; Rioplatense
+`che` read as Italian; the Arabic `او` read as Persian, and the Gulf and
+Maghrebi `ڤ` for v read as Jawi.
+
+**Class 3, romanised and transliterated text**, was found and not acted on:
+`govno` and `davno` Slovene, Hinglish `tere` Estonian and `wala` Tagalog,
+Vietnamese `theo dõi` Estonian because its table lacks `õ`, Mandarin `xixixi`
+Indonesian.
+
+**Class 4, the labels of the tuning corpora 4 to 10**, read in full by a
+separate agent with corpora 11 and 12 left closed: no line in a plainly wrong
+language, 12 lines with no language signal carrying one anyway (`gg bro` under
+Indonesian), 24 lines that nothing separates from a sibling (`давай давай`,
+`vamoooos`).
+
+**Why eight blind corpora did not see class 1.** The corpora do have English
+rows, and the authors wrote English sentences in them: **204 English lines
+across the tuning corpora 1 to 10, and not one carries any of the 19 words
+class 1 turned up** (`ik`, `wat`, `wyd`, `proc`, `quest`, `til` and the rest),
+counted after the review. That is the distributional problem of
+[thesis 14.1](../thesis/14-limits.md) in its plainest form, and the loop of
+4.118 could not correct it: each author was independent of the detector and of
+the other corpora, but every author worked from the same brief and carried the
+same picture of chat. **Independent authors do not make independent briefs**,
+so a class the brief does not name is absent from every corpus written to it,
+however many there are, and the bar is blind to it by construction. Finding
+4.114 came back with it: Slovak `dobre sme` is still declared Bulgarian, by the
+same two markers.
+
+### 4.120 Fixed mostly by removal, paid in recall, and the raw path billed apart
+
+**kil then asked for classes 1 and 2 to be fixed.** Commit `7e3d4e4` on the
+same branch. Each probe line became a test, and **all 51 were seen red on the
+code before the change**, then green.
+
+**Most fixes remove or narrow**: `wat`, `proc`, `hallo`, `gerne`, `sker`,
+`salut`, `hola`, `hostia`, `vale`, `memang`, `betul`, `hra`, `vždy`, `prave`,
+`vyborne` leave the lexicon; `ik`, `taas`, `mulle`, `velmi`, `sme`, `ele`,
+`-knya`, `-ným` leave the exclusive table; `много` and `او` leave their word
+lists, `pravda` the strong Russian markers, `sme` the weak Bulgarian ones (so
+4.114's `dobre sme` no longer reads Bulgarian), and Polish `nikogo` the Russian
+genitive form; `-uest` narrows to `aquest`, `gov`
+to `govor`, `wy` to the prefix and the ending, `wir` to the start of a word
+other than `wire`, `pour` and `kung` stop before what English puts after them.
+**Five things are added.** `ik` comes back when a Dutch first-person verb
+follows it, which English never writes. The cedilla `ţ`, which Turkish never
+writes, joins Romanian, and Romanian words typed with `ş` vote Romanian so the
+line goes silent instead of Turkish: taking `ş` from Turkish instead cost 7
+Tatoeba and 5 chat lines of Turkish and made nothing more right. Rioplatense
+words (`boludo`, `pibe`, `laburo`) vote Spanish in both the exclusive table and
+the lexicon, because a disagreement in the first falls through to the second,
+where `che` alone still voted Italian. A line that carries `the` or an English
+lexicon word no longer opens a shared-letter gate or the Danish-Norwegian pair
+without a Nordic letter. A Jawi letter yields to an Arabic chat word on the
+same line.
+
+**Every change was measured alone**, by reverting one hunk of the diff at a
+time. **None adds or removes a confident wrong line on any bench**, which is
+4.119's finding seen from the other side: the benches do not contain the class.
+The confident path pays in recall: **Tatoeba right 3709 to 3676 with wrong
+unchanged at 3, the tuning chats 2079 to 2035 with wrong unchanged at 1,
+corpus 11 wrong 1 to 0, corpus 12 unchanged at 1.** Probe lines confidently
+wrong: 77 to 23, the remainder being class 3 and the cases kept below.
+
+**The raw path gets its own bill.** A line the confident path stops naming
+falls to franc, and franc read the newly silent lines worse: Tatoeba raw wrong
+**502 to 521**. The per-hunk ablation, run again with raw counts, put 19 of
+them on three removals: `taas` (6 chat lines), `ele` (6 Tatoeba) and `-knya`
+with `-ným` (7 Tatoeba). Those forms are shared, but one sibling dominates, so
+they return on the raw path only, in a small `PENCHANTS` table read just before
+franc, the shape the laughter vote already had: **521 to 508**. The 6 left are
+spread over `hallo` with `gerne`, `wat`, `ik`, `bare` (two), `много` and
+`sme`, less one that dropping `pravda` gives back.
+
+**One fix was reverted on its measurement.** Excluding `-ить` and `-ять` from
+the Russian infinitive, because the Ukrainian third person writes them
+(`мама робить`), made 9 Russian lines silent and 5 wrong on the raw path. It is
+kept as a known limit, with the reason written beside the rule. **Kept on
+purpose**: Ukrainian `коли` ("when", frequent in chat) against Bulgarian `коли`
+("cars"); Malay `tak`, where the reviewer's own expected label was the error,
+since `aku tak tahu` is Malay as much as Indonesian.
+
+**Not judged blind, and it should not be read as judged.** The probe lines are
+the reviewer's own, so 77 to 23 verifies the reviewer's model of the failure,
+not its frequency. Corpora 11 and 12 had their totals read again to move their
+pinned values, so corpus 12 has now been read twice in totals, and no unread
+corpus judges this pass. One written to the same brief could not judge class 1
+in any case, per 4.119.
+
+**The instrument broke twice.** The pin mover was launched through a shell
+`||` fallback and ran a second time on a stale report, duplicating its comment
+lines; the pinned files were restored from the last commit and moved once. It
+also sees only the first failing assertion of each test, so assertions further
+down were moved one pass later and labelled with that later pass's name; they
+were relabelled by hand. Typecheck, lint, build and the 2048 tests are green
+on `7e3d4e4`.
+
+### 4.121 Recorded late: the noise branch merged the same night, and the verifier lost one claim to an emoji joiner
+
+**Pull request #37 (`feat/strip-noise-inside`, opened 2026-10-17) was merged at
+23:48 on 2026-11-03**, eleven minutes after 4.117's #40, and no entry recorded
+it. What its commits state, not re-measured here: on 15,155 live Kick lines in
+31 languages, 6.9 percent of the characters sent to the engine carried nothing
+to translate (7.1 percent after a live check added stray-key `kkkk`, shouted
+`KAKAKA` and emoji glued to a word). A line now loses a phrase pasted three
+times or more, laughter and emoji at either end, emoji runs, and domains
+without a scheme; bare bot commands are skipped with their own reason; a line
+of eight words or more, two in three of them repeats, goes out as its distinct
+words; junk appended after an emoji to dodge the duplicate check is dropped.
+
+**It acts on 4.113.** The same-keyboard-row rule took 62 of 27,297 Tatoeba
+words for a smash (`quiero`, `porque`, `primeiro`), which is the finding of
+4.113. A smash now also needs few vowels, a repeated letter group or a walk
+along neighbouring keys, and the commit gives 17 of 17 attested smashes still
+caught and 0 of 68 words. 4.113 had measured each condition alone (a vowel
+floor kept 27 false positives, adjacent keys lost every mash); the shipped rule
+takes them together, which neither candidate was.
+
+**The verifier now gives 47 of 67 on the branch, from 48 on 2026-11-03**, and
+the claim that moved is not a count that grew. `3.1 sources handling
+direction-control characters` expects 0 and finds 1, `filters.ts`, because
+#37's emoji pattern contains `‍`, the zero-width joiner of emoji sequences.
+The instrument's pattern `\u200[B-F]` takes in the zero-width space, non-joiner
+and joiner along with the two direction marks it means (`‎`, `‏`).
+The instrument is wrong here, not the claim, and it is left as it is and named,
+the same choice as 4.117: changing a verifier on the day it disagrees is how it
+comes to agree with whatever it is pointed at.
+
 ### The pattern across the first three
 
 All three accused working code, and all three erred in the same direction. A
