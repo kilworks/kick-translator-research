@@ -6209,9 +6209,11 @@ The maintainer answered the three open decisions on 2026-11-05: quality matters 
 default mode, code R1b, retire the false rules seen on real chat. None of the resulting
 pull requests is merged.
 
-**The default moves to cloud-first, for new installs only.** Saved settings hold
-`engineMode`, so anyone who ever changed a setting stays where they are; migrating them
-would start sending text that stayed on their device, and that is left to the maintainer.
+**The default moves to cloud-first, and readers on the old default move once.** Saved
+settings hold `engineMode`, so a stored `local-first` does not say whether the reader picked
+it. Moving them starts sending text that stayed on their device. This log advised against
+doing it silently; the maintainer decided otherwise, having told users on the linked Discord
+server. `local-only` is not touched, and picking `local-first` afterwards holds.
 The label had promised an on-device fallback since it shipped and none existed: a failed
 cloud showed an error whatever model was ready. It exists now. The price is the one this
 log measured earlier, 22 ms against 1.6 s at p50, the first on 8 samples.
