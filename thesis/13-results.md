@@ -138,6 +138,7 @@ public.
 | Gemini Nano against Google, 154 hard outputs, penalty a line, serious errors | | **2.82 / 2.45, 31.2 % / 23.1 %, not shipped** ([E 4.126](../appendix/E-method-log.md)) | [new] |
 | Correct source language forced, 31 changed outputs of 268, 8 sentences, penalty a line before / after | | **10.74 / 0.87, upper bound** ([E 4.126](../appendix/E-method-log.md)) | [new] |
 | MyMemory, all observed outputs, penalty a line, serious errors; marker survival, `⟦n⟧` / `[n]` of 100 | | **2.34, 29.3 %; 61 / 93** ([E 4.126](../appendix/E-method-log.md)) | [new] |
+| False-rule fixes kept / measured; annotated real chat right, wrong, before and after | | **3 / 6; 599, 11 to 600, 7** ([E 4.127](../appendix/E-method-log.md)) | [new] |
 | Second real bench, 580 lines in scarcer languages, confident path right / silent / wrong | | **246 / 331 / 3** ([E 4.126](../appendix/E-method-log.md)) | [new] |
 | Two annotators, agreement on the language of a line | | **96.4 %, kappa 0.960** (2000 lines) | [new] |
 

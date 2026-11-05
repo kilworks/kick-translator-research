@@ -6203,6 +6203,38 @@ said they were never shown. That is fixed and replays clean on 95 real outputs. 
 unchanged: a chat can type a literal `[1]`, and only one name is protected today. **A choice
 measured on one engine had been written down as a choice about all of them.**
 
+### 4.127 The maintainer's three answers, and a recommendation the measure half refused
+
+The maintainer answered the three open decisions on 2026-11-05: quality matters on the
+default mode, code R1b, retire the false rules seen on real chat. None of the resulting
+pull requests is merged.
+
+**The default moves to cloud-first, for new installs only.** Saved settings hold
+`engineMode`, so anyone who ever changed a setting stays where they are; migrating them
+would start sending text that stayed on their device, and that is left to the maintainer.
+The label had promised an on-device fallback since it shipped and none existed: a failed
+cloud showed an error whatever model was ready. It exists now. The price is the one this
+log measured earlier, 22 ms against 1.6 s at p50, the first on 8 samples.
+
+**R1b is coded knowing it missed its bar.** The bar stays as written in 4.126, missed, and
+the decision is recorded as a decision and not as a result.
+
+**Of the six rules recommended for removal, three pass.** A bar was written before the run:
+target lines go, no new false answer anywhere, right lines lost on annotated real chat no
+more than false lines removed. `niy` kept off `-e`, `dat` kept off Romanian auxiliaries and
+`miks` removed pass: on 1291 annotated lines right goes **599 to 600, wrong 11 to 7**, and
+heldout does not move. `che` kept off the start of a line loses 12 right lines on the frozen
+corpora and adds 3 false raw answers, `aja` removed adds 1 false raw answer on heldout, and
+`-aat` narrowed to whole words adds 1 false confident answer on heldout. All three stay.
+
+The first evaluation saw only annotated chat and the six corpora of the repository's diff
+tool. It refused removing `dat` outright, and the narrowed forms of all six then looked
+acceptable. **The blind corpora and heldout refused half of them**, through the frozen totals
+of the ordinary test suite. Heldout ran 13 more times in totals to attribute the cost and to
+test the result, no line was read, and no further `-aat` variant was tried, because retrying until
+heldout passes is tuning on it. The recommendation had been made from real false lines alone
+and had counted no cost at all: it was half wrong, and only the frozen numbers said so.
+
 ### The pattern across the first three
 
 All three accused working code, and all three erred in the same direction. A
