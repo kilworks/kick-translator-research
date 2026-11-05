@@ -6189,8 +6189,19 @@ Romanian (8), `miks` as Estonian on Finnish, `che` as Italian on River Plate Spa
 captures, agreement 95.6 %, kappa 0.950, 921 agreed. Of 580 with a language, **confident
 246 / 331 / 3 (0.5 % wrong), raw 361 / 126 / 93**. On 95 lines in languages outside the
 43, the confident path named one on 11, mostly Serbian as Polish and Mongolian as Dutch,
-a case no corpus had measured. MyMemory's remaining lines and marker probe wait on its
-daily cap.
+a case no corpus had measured.
+
+**MyMemory's cap reset the next morning, and the marker chosen on Google does not travel.**
+The 91 outputs its cap had cut, nearly all from Polish, scored **3.75 a line, serious 43.4 %**
+under a third pair of judges (agreement 90.1 %, kappa 0.799), which brings MyMemory from 2.12
+on 594 outputs to **2.34 on 685, serious 29.3 %**; one line appears in both counts because the
+shorthand table changed what it sends. The marker of the tokens pass was picked on Google, 98
+of 100 against 99 for `[n]`. Through MyMemory `⟦n⟧` survives on **61 of 100 against 93**, and
+`{n}` hit the daily cap at line 48. Worse, on 34 of those lines MyMemory pulled the two
+brackets apart around other words, the restore pattern missed them, and a comment in the code
+said they were never shown. That is fixed and replays clean on 95 real outputs. The marker is
+unchanged: a chat can type a literal `[1]`, and only one name is protected today. **A choice
+measured on one engine had been written down as a choice about all of them.**
 
 ### The pattern across the first three
 
